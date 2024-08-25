@@ -46,6 +46,7 @@ fetch_weather_synoptic <- function(station_ids, date_range,
         c("Station_ID", "Station_Name", "latitude", "longitude", "elevation_ft",
           "state", "local_timezone")
       ))) %>%
+    dplyr::arrange(dplyr::desc(.data$Date_Time_Local)) %>%
     dplyr::collect() %>%
     dplyr::mutate(Date_Time_Local = lubridate::with_tz(.data$Date_Time_Local,
                                                        tzone_out)) %>%
