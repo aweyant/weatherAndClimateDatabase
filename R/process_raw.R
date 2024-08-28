@@ -18,7 +18,7 @@ raw_synoptic_files_to_tibble <- function(raw_file_paths) {
 raw_ghcnd_files_to_tibble <- function(raw_file_paths) {
   lapply(X = raw_file_paths,
          FUN = \(raw_file_path) {
-           readr::read_csv(raw_file_path) %>%
+           readr::read_csv(raw_file_path, col_types = readr::cols()) %>%
              weatherAndClimatePlots::clean_raw_ghcnd_to_standard()
          }) |>
     dplyr::bind_rows() |>

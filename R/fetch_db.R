@@ -55,3 +55,40 @@ fetch_weather_synoptic <- function(station_ids, date_range,
   DBI::dbDisconnect(conn = synoptic_db)
   return(synoptic_subset_tbl)
 }
+
+fetch_weather_daily <- function(station_ids, date_range) {
+
+
+  processed_unified_path <- file.path(
+    rappdirs::user_data_dir(appname = "weatherAndClimateDatabase"),
+    "processed", "unified")
+  con_unified <- DBI::dbConnect(drv = duckdb::duckdb(),
+                                dbdir = file.path(processed_unified_path,
+                                                  "unified.db"))
+
+  # Pre-process DB Query; The dplyr SQL interpreter does not like computations
+  # inside the dplyr verbs
+  min_date <- min(date_range); max_date <- max(date_range) + lubridate::days('1')
+  station_ids <- toupper(station_ids)
+
+  # Query DB for the right stations and times
+  daily_subset_tbl <- dplyr::right_join(y = con_unified %>%
+                                          dplyr::tbl("unified_daily_weather"),
+                                        x = con_unified %>%
+                                          dplyr::tbl("unified_meta"),
+                                        by = "Station_ID") %>%
+    dplyr::filter(.data$Station_ID %in% station_ids,
+                  .data$date>= min_date,
+                  .data$date <= max_date) %>%
+    dplyr::group_by(
+      dplyr::across(tidyselect::all_of(
+        c("Station_ID", "Station_Name", "latitude", "longitude", "elevation_ft",
+          "state", "local_timezone")
+      ))) %>%
+    dplyr::arrange(dplyr::desc(.data$date)) %>%
+    dplyr::collect() %>%
+    tidyr::nest(.key = "obs") %>%
+    dplyr::ungroup()
+  DBI::dbDisconnect(conn = con_unified)
+  return(daily_subset_tbl)
+}
