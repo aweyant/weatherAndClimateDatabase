@@ -57,8 +57,6 @@ fetch_weather_synoptic <- function(station_ids, date_range,
 }
 
 fetch_weather_daily <- function(station_ids, date_range) {
-
-
   processed_unified_path <- file.path(
     rappdirs::user_data_dir(appname = "weatherAndClimateDatabase"),
     "processed", "unified")
@@ -68,6 +66,7 @@ fetch_weather_daily <- function(station_ids, date_range) {
 
   # Pre-process DB Query; The dplyr SQL interpreter does not like computations
   # inside the dplyr verbs
+  date_range <- lubridate::ymd(date_range)
   min_date <- min(date_range); max_date <- max(date_range) + lubridate::days('1')
   station_ids <- toupper(station_ids)
 
