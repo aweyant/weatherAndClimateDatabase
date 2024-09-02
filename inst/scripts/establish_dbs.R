@@ -12,7 +12,7 @@ station_equivalence_df <- data.frame(
 
 # Updated all GHCND, Synoptic, and unified daily DBs ----------------------
 update_unified_db(station_equivalence_df)
-
+gc()
 # Update synoptic db ------------------------------------------------------
 # First, synoptic csvs were added to:
 # file.path(rappdirs::user_data_dir("weatherAndClimateDatabase"), "raw", "synoptic")"
