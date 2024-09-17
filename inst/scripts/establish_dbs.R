@@ -6,9 +6,17 @@ pacman::p_load("weatherAndClimateUtils", "weatherAndClimateDatabase")
 
 # Constants ---------------------------------------------------------------
 station_equivalence_df <- data.frame(
-  Station_ID = c("KSAN", "KMYF"),
-  GHCN_ID = c("USW00023188", "USW00003131")
+  Station_ID = c("KSAN", "KMYF", "KNKX",
+                 "PAMSD", "UCAB"),
+  GHCN_ID = c("USW00023188", "USW00003131", "USW00093107",
+              "USC00046657", "USC00040983")
 )
+
+weatherAndClimateUtils:::get_data_ghcnd(
+  dest_dir = file.path(rappdirs::user_data_dir("weatherAndClimateDatabase"),
+                       "raw", "ghcnd"),
+  ids = station_equivalence_df$GHCN_ID,
+  check_existence = TRUE)
 
 # Updated all GHCND, Synoptic, and unified daily DBs ----------------------
 update_unified_db(station_equivalence_df)
