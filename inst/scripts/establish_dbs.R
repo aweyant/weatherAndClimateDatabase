@@ -19,7 +19,7 @@ weatherAndClimateUtils:::get_data_ghcnd(
   check_existence = TRUE)
 
 # Updated all GHCND, Synoptic, and unified daily DBs ----------------------
-update_unified_db(station_equivalence_df)
+weatherAndClimateDatabase:::update_unified_db(station_equivalence_df)
 gc()
 # Update synoptic db ------------------------------------------------------
 # First, synoptic csvs were added to:
