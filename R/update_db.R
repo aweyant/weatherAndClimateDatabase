@@ -9,9 +9,8 @@ NULL
 #' @rdname update_db
 #' @return update_ghcnd_db() and update_synoptic_db(): This function is
 #' typically called for its side-effect; namely, writing updates to the DB. When
-#' station_equivalence_df is NULL, nothing is returned. If a
-#' station_equivalence_tbl is given, then hee subset of the ghcnd_tbl mentioned
-#' in this equivalence table is returned.
+#' station_equivalence_df is not NULL, nothing is returned. In this case, the
+#' subset of the ghcnd_tbl mentioned in the equivalence table is returned.
 #' @export
 update_ghcnd_db <- function(station_equivalence_df = NULL) {
   # Specify raw and processed data paths

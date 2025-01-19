@@ -24,6 +24,11 @@ fetch_weather_synoptic <- function(station_ids, date_range,
     rappdirs::user_data_dir(appname = "weatherAndClimateDatabase"),
     "processed", "synoptic")
 
+  # NEAR-FUTURE UPDATE TO SUPPORT AUTOMATED DB
+  # if stations do not have data for daterange and the last update was a long
+  # time ago, start the automatic updating of the db
+  # Do so by calling a function with station_ids, date_range, and tzone out
+
   # Connect to db
   synoptic_db <- DBI::dbConnect(drv = duckdb::duckdb(),
                         dbdir = file.path(processed_synoptic_path,
