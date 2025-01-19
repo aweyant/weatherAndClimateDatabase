@@ -1,3 +1,18 @@
+#' Update DBs from local files
+#'
+#' @name update_db
+#'
+#' @param station_equivalence_df a data.frame() with IDs for stations; for now,
+#' GHCN_ID and (Synoptic) Station_ID are assumed
+NULL
+
+#' @rdname update_db
+#' @return update_ghcnd_db() and update_synoptic_db(): This function is
+#' typically called for its side-effect; namely, writing updates to the DB. When
+#' station_equivalence_df is NULL, nothing is returned. If a
+#' station_equivalence_tbl is given, then hee subset of the ghcnd_tbl mentioned
+#' in this equivalence table is returned.
+#' @export
 update_ghcnd_db <- function(station_equivalence_df = NULL) {
   # Specify raw and processed data paths
   raw_ghcnd_path <- file.path(
@@ -44,6 +59,8 @@ update_ghcnd_db <- function(station_equivalence_df = NULL) {
   }
 }
 
+#' @rdname update_db
+#' @export
 update_synoptic_db <- function(station_equivalence_df) {
   # Specify raw and processed data paths
   raw_synoptic_path <- file.path(
@@ -88,6 +105,10 @@ update_synoptic_db <- function(station_equivalence_df) {
   }
 }
 
+#' @rdname update_db
+#' @return update_unified_df(): Nothing; this function is called for its side-effect, which is
+#' writing to the DB.
+#' @export
 update_unified_db <- function(station_equivalence_df) {
   # Check that there is a raw data directory
   raw_dir <- file.path(

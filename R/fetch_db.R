@@ -1,11 +1,15 @@
 #' Fetch subsets of weather data from the databases
 #'
+#' @name fetch
 #' @param station_ids vector of strings; Synoptic IDs of weather stations
 #' @param date_range vector of Dates; min and max dates to fetch weather data
 #' @param tzone_out the timezone in which all of the dates in the database will
 #' be read in. Dates in duckdb appear to all be in UTC. Setting tzone_out to
 #' tz seems to be equivalent to using lubridate::with_tz(time, tz).
 #'
+NULL
+
+#' @rdname fetch
 #' @return a nested tibble with station metadata on the top level and weather
 #' data inside of "obs"
 #'
@@ -56,6 +60,8 @@ fetch_weather_synoptic <- function(station_ids, date_range,
   return(synoptic_subset_tbl)
 }
 
+#' @rdname fetch
+#' @export
 fetch_weather_daily <- function(station_ids, date_range) {
   processed_unified_path <- file.path(
     rappdirs::user_data_dir(appname = "weatherAndClimateDatabase"),
